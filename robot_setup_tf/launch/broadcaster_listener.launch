@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="robot_setup_tf" type="broadcaster_tf2" name="broadcaster"/>
+
+    <node pkg="robot_setup_tf" type="scan_publisher" name="scan_pub"/>
+</launch>
