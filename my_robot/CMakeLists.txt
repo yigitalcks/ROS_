@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(robot_setup_tf)
+project(my_robot)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,13 +8,12 @@ project(robot_setup_tf)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  nav_msgs
   geometry_msgs
-  sensor_msgs
-  roscpp
+  nav_msgs
   tf
   tf2
   tf2_ros
+  urdf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -74,7 +73,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs
+#   geometry_msgs#   nav_msgs
 # )
 
 ################################################
@@ -107,9 +106,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include
-#  LIBRARIES robot_setup_tf
-#  CATKIN_DEPENDS geometry_msgs roscpp tf tf2 tf2_ros
+  INCLUDE_DIRS include
+#  LIBRARIES my_robot
+#  CATKIN_DEPENDS geometry_msgs nav_msgs tf tf2 tf2_ros urdf
 #  DEPENDS system_lib
 )
 
@@ -126,7 +125,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/robot_setup_tf.cpp
+#   src/${PROJECT_NAME}/my_robot.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -137,21 +136,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/robot_setup_tf_node.cpp)
-add_executable(broadcaster_tf2 src/broadcaster_tf2.cpp)
-target_link_libraries(broadcaster_tf2  ${catkin_LIBRARIES} )
-
-add_executable(listener_tf src/listener_tf.cpp)
-target_link_libraries(listener_tf  ${catkin_LIBRARIES} )
-
-add_executable(scan_publisher src/scan_publisher.cpp)
-target_link_libraries(scan_publisher  ${catkin_LIBRARIES} )
-
-add_executable(point_publisher src/point_publisher.cpp)
-target_link_libraries(point_publisher  ${catkin_LIBRARIES} )
-
-add_executable(odom_publisher src/odom_publisher.cpp)
-target_link_libraries(odom_publisher  ${catkin_LIBRARIES} )
+add_executable(parser src/parser.cpp)
+target_link_libraries(parser  ${catkin_LIBRARIES} )
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -215,7 +201,7 @@ target_link_libraries(odom_publisher  ${catkin_LIBRARIES} )
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_robot_setup_tf.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_my_robot.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
