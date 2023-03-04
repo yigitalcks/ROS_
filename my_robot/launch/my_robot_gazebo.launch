@@ -1,5 +1,7 @@
 <launch>
     <arg name = "model" default = "$(find my_robot)/urdf/my_robot.urdf.xacro"/>
+    <arg name = "rviz_config" default = "$(find my_robot)/rviz/my_robot.rviz"/>
+
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
     <arg name="gui" default="true"/>
@@ -9,6 +11,7 @@
     <param name = "robot_description" command = "$(find xacro)/xacro $(arg model)"/>
 
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name ="world_name" value = "$(find my_robot)/worlds/mybot.world"/>
         <arg name="debug" value="$(arg debug)" />
         <arg name="gui" value="$(arg gui)" />
         <arg name="paused" value="$(arg paused)"/>
@@ -16,7 +19,9 @@
         <arg name="headless" value="$(arg headless)"/>
     </include>
 
+    <node name = "rviz" pkg = "rviz" type = "rviz" args = "-d '$(find xacro)/xacro $(arg model)'" />
+
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-        args="-z 1.0 -unpause -urdf -model robot -param robot_description" respawn="false" output="screen" />
+        args="-y -2.0 -z 1.0 -unpause -urdf -model robot -param robot_description" respawn="false" output="screen" />
 
 </launch>
